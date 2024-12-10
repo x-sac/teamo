@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Amo Culona</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const text = "Te amo culona";
+        const characters = "1234567890!@#$%^&*()";
+        const fontSize = 30;
+        const waveSpeed = 0.03;
+        let time = 0;
+
+        function drawText() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw main text
+            ctx.font = "80px Arial";
+            ctx.fillStyle = "red";
+            ctx.textAlign = "center";
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            // Draw wave of characters
+            ctx.font = `${fontSize}px Arial`;
+            ctx.fillStyle = "white";
+
+            for (let i = 0; i < canvas.width; i += 50) {
+                const char = characters[Math.floor(Math.random() * characters.length)];
+                const x = i;
+                const y = canvas.height / 2 + Math.sin((i + time) * waveSpeed) * 50 + 100;
+                ctx.fillText(char, x, y);
+            }
+        }
+
+        function animate() {
+            time += 5;
+            drawText();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Adjust canvas size on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
